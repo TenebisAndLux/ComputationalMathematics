@@ -25,7 +25,7 @@ namespace WindowsFormsApp1
             textBox4.Text = "10,8";
             textBox5.Text = "4,3";
             textBox10.Text = "5,5";
-            textBox9.Text = "-9.3";
+            textBox9.Text = "-9,3";
             textBox8.Text = "14,2";
             textBox7.Text = "13,2";
             textBox6.Text = "6,8";

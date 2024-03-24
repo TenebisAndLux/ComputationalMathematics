@@ -44,9 +44,7 @@ def iterative_method(
 
         alpha[i, i] = 0
 
-    print(algorithm.cond(alpha))
-
-    if algorithm.cond(alpha) >= 1.0:
+    if algorithm.norm(alpha) >= 1.0:
         return None
 
     i = 0

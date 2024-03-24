@@ -47,45 +47,42 @@ class MainWindow(QWidget):
         self.setGeometry(300, 300, 300, 300)
 
     def calculate_condition(self):
-        matrix_a_text = self.matrix_a_input.toPlainText()
-        matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
-        rows_a = matrix_a_text.split('\n')
-
-        A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
-
-        cond = alg.cond(A)
-        self.result_output.setPlainText(f"Число обусловленности: {cond}")
+        try:
+            matrix_a_text = self.matrix_a_input.toPlainText()
+            matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
+            rows_a = matrix_a_text.split('\n')
+            A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
+            cond = alg.cond(A)
+            self.result_output.setPlainText(f"Число обусловленности: {cond}")
+        except ValueError:
+            self.result_output.setPlainText("Ошибка: Некорректный ввод матрицы A")
 
     def solve_system(self):
-        matrix_a_text = self.matrix_a_input.toPlainText()
-        matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
-        rows_a = matrix_a_text.split('\n')
-
-        matrix_b_text = self.matrix_b_input.toPlainText()
-        matrix_b_text = matrix_b_text.replace('[', '').replace(']', '').replace(',', '')
-        rows_b = matrix_b_text.split('\n')
-
-        A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
-        B = np.matrix([[float(x) for x in row.split()] for row in rows_b]).T
-        error = float(self.error_input.text())
-
-        result = solution.iterative_method(A, B, error)
-        self.result_output.setPlainText(f"Решение: {result}")
+        try:
+            matrix_a_text = self.matrix_a_input.toPlainText()
+            matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
+            rows_a = matrix_a_text.split('\n')
+            matrix_b_text = self.matrix_b_input.toPlainText()
+            matrix_b_text = matrix_b_text.replace('[', '').replace(']', '').replace(',', '')
+            rows_b = matrix_b_text.split('\n')
+            A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
+            B = np.matrix([[float(x) for x in row.split()] for row in rows_b]).T
+            error = float(self.error_input.text())
+            result = solution.iterative_method(A, B, error)
+            self.result_output.setPlainText(f"Решение: {result}")
+        except (ValueError, np.linalg.LinAlgError):
+            self.result_output.setPlainText("Ошибка: Некорректный ввод матрицы A или B")
 
     def calculate_determinant(self):
-        matrix_a_text = self.matrix_a_input.toPlainText()
-        matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
-        rows_a = matrix_a_text.split('\n')
-
-        matrix_b_text = self.matrix_b_input.toPlainText()
-        matrix_b_text = matrix_b_text.replace('[', '').replace(']', '').replace(',', '')
-        rows_b = matrix_b_text.split('\n')
-
-        A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
-        B = np.matrix([[float(x) for x in row.split()] for row in rows_b]).T
-
-        det = np.linalg.inv(A) * B
-        self.result_output.setPlainText(f"Определитель: {det}")
+        try:
+            matrix_a_text = self.matrix_a_input.toPlainText()
+            matrix_a_text = matrix_a_text.replace('[', '').replace(']', '').replace(',', '')
+            rows_a = matrix_a_text.split('\n')
+            A = np.matrix([[float(x) for x in row.split()] for row in rows_a])
+            det = np.linalg.det(A)
+            self.result_output.setPlainText(f"Определитель: {det}")
+        except (ValueError, np.linalg.LinAlgError):
+            self.result_output.setPlainText("Ошибка: Некорректный ввод матрицы A")
 
 
 if __name__ == '__main__':
